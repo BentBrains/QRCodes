@@ -1,22 +1,22 @@
 # QRCodeLibVBA
-QRCodeLibVBAは、Excel VBAで書かれたQRコード生成ライブラリです。  
-JIS X 0510に基づくモデル２コードシンボルを生成します。
+QRCodeLibVBA is a QR code generation library written in Excel VBA.
+Generate model 2 code symbols based on JIS X 0510.
 
-## 特徴
-- 数字・英数字・8ビットバイト・漢字モードに対応しています
-- 分割QRコードを作成可能です
-- 1bppまたは24bpp BMPファイル(DIB)へ保存可能です
-- 1bppまたは24bpp IPictureオブジェクトとして取得可能です  
-- 画像の配色(前景色・背景色)を指定可能です
-- 8ビットバイトモードでの文字コードを指定可能です
-
-
-## クイックスタート
-32bit版Excelで、QRCodeLib.xlam を参照設定してください。  
+## Feature
+- It corresponds to numbers, alphanumeric characters, 8 bit bytes, and kanji mode
+- Can create split QR code
+- Can be saved to 1 bpp or 24 bpp BMP file (DIB)
+- It can be obtained as 1 bpp or 24 bpp IP picture object
+- Image coloring (foreground color / background color) can be specified
+- Character code in 8 bit byte mode can be specified
 
 
-## 使用方法
-### 例１．単一シンボルで構成される(分割QRコードではない)QRコードの、最小限のコードを示します。
+## Quick start
+Please refer to QRCodeLib.xlam in 32bit version Excel.
+
+
+## How to use
+### Example 1. Indicates the minimum code of the QR code consisting of a single symbol (not a split QR code).
 
 ```vbnet
 Public Sub Example()
@@ -30,36 +30,36 @@ Public Sub Example()
 End Sub
 ```
 
-### 例２．誤り訂正レベルを指定する
-CreateSymbols関数の引数に、ErrorCorrectionLevel列挙型の値を設定してSymbolsオブジェクトを生成します。
+### Example 2. Specify the error correction level
+Create a Symbols object by setting the value of the ErrorCorrectionLevel enumeration to the argument of the CreateSymbols function.
 
 ```vbnet
 Dim sbls As Symbols
 Set sbls = CreateSymbols(ErrorCorrectionLevel.H)
 ```
 
-### 例３．型番の上限を指定する
-CreateSymbols関数の引数を設定してSymbolsオブジェクトを生成します。
+### Example 3. Specify upper limit of model number
+Create a Symbols object by setting arguments of the CreateSymbols function.
 ```vbnet
 Dim sbls As Symbols
 Set sbls = CreateSymbols(maxVer:=10)
 ```
 
-### 例４．8ビットバイトモードで使用する文字コードを指定する
-CreateSymbols関数の引数を設定してSymbolsオブジェクトを生成します。
+### Example 4. Specify the character code to use in 8-bit byte mode
+Create a Symbols object by setting arguments of the CreateSymbols function.
 ```vbnet
 Dim sbls As Symbols
 Set sbls = CreateSymbols(byteModeCharsetName:="utf-8")
 ```
 
-### 例５．分割QRコードを作成する
-CreateSymbols関数の引数を設定してSymbolsオブジェクトを生成します。型番の上限を指定しない場合は、型番40を上限として分割されます。
+### Example 5. Create divided QR code
+Create a Symbols object by setting arguments of the CreateSymbols function. If you do not specify the upper limit of the model number, it will be split up to model number 40 as the upper limit.
 ```vbnet
 Dim sbls As Symbols
 Set sbls = CreateSymbols(allowStructuredAppend:=True)
 ```
 
-型番1を超える場合に分割し、各QRコードのIPictureオブジェクトを取得する例を示します。
+An example of dividing when exceeding model number 1 and acquiring IP picture object of each QR code is shown below.
 
 ```vbnet
 Dim sbls As Symbols
@@ -74,8 +74,8 @@ For Each sbl In sbls
 Next
 ```
 
-### 例６．BMPファイルへ保存する
-SymbolクラスのSave1bppDIB、またはSave24bppDIBメソッドを使用します。
+### Example 6. Save to BMP file
+Use the Save1bppDIB, or Save 24bppDIB method of the Symbol class.
 
 ```vbnet
 Dim sbls As Symbols
