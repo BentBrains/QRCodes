@@ -18,7 +18,7 @@ End Enum
 '------------------------------------------------------------------------------
 Public Enum EncodingMode
     UNKNOWN
-    Numeric
+    NUMERIC
     ALPHA_NUMERIC
     EIGHT_BIT_BYTE
     KANJI

@@ -1,10 +1,6 @@
 VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
-  Persistable = 0  'NotPersistable
-  DataBindingBehavior = 0  'vbNone
-  DataSourceBehavior  = 0  'vbNone
-  MTSTransactionMode  = 0  'NotAnMTSObject
 END
 Attribute VB_Name = "BitSequence"
 Attribute VB_GlobalNameSpace = False
@@ -16,14 +12,14 @@ Attribute VB_Exposed = False
 '------------------------------------------------------------------------------
 Option Explicit
 
-Private m_buffer As Object              'Originally As Dictionary
+Private m_buffer As Dictionary
 
 Private m_bitCounter As Long
 Private m_space      As Long
 
 Private Sub Class_Initialize()
 
-    Set m_buffer = CreateObject("Scripting.Dictionary")
+    Set m_buffer = New Dictionary
     m_bitCounter = 0
     m_space = 0
 
@@ -49,7 +45,7 @@ End Property
 '------------------------------------------------------------------------------
 Public Sub Append(ByVal data As Long, ByVal bitLength As Long)
 
-#If [Debug] Then
+#If [DEBUG] Then
     Debug.Assert data >= 0
     Debug.Assert bitLength >= 0
 #End If

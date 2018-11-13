@@ -6,7 +6,7 @@ Generate model 2 code symbols based on JIS X 0510.
 - It corresponds to numbers, alphanumeric characters, 8 bit bytes, and kanji mode
 - Can create split QR code
 - Can be saved to 1 bpp or 24 bpp BMP file (DIB)
-- It can be obtained as 1 bpp or 24 bpp IPicture object
+- It can be obtained as 1 bpp or 24 bpp IP picture object
 - Image coloring (foreground color / background color) can be specified
 - Character code in 8 bit byte mode can be specified
 
