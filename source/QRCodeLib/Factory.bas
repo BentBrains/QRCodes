@@ -2,14 +2,14 @@ Attribute VB_Name = "Factory"
 Option Explicit
 
 '------------------------------------------------------------------------------
-' (概要)
-'  Symbolsクラスのインスタンスを生成します。
+'(Overview)
+'	Create an instance of the Symbols class.
 '
-' (パラメータ)
-'  ecLevel               : 誤り訂正レベル
-'　maxVer                : 型番の上限
-'  allowStructuredAppend : 複数シンボルへの分割を許可するには True を指定します。
-'  byteModeCharsetName   : バイトモードの文字コードを指定します。
+'(Parameters)
+'	ecLevel: Error correction level
+'	maxVer: Model number upper limit
+'	allowStructuredAppend: Specify True to allow splitting into multiple symbols.
+'	byteModeCharsetName: Specifies character code in byte mode.
 '------------------------------------------------------------------------------
 Public Function CreateSymbols( _
     Optional ByVal ecLevel As ErrorCorrectionLevel = ErrorCorrectionLevel.M, _
