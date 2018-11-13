@@ -1,6 +1,10 @@
 VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
 END
 Attribute VB_Name = "Symbol"
 Attribute VB_GlobalNameSpace = False
@@ -24,7 +28,7 @@ Private m_dataBitCapacity   As Long
 Private m_dataBitCounter    As Long
 
 Private m_segments          As New Collection ' Item : IQRCodeEncoder
-Private m_segmentCounter    As New Dictionary ' Key : EncodingMode, Item : Long
+Private m_segmentCounter    As Object ' Key : EncodingMode, Item : Long         'Originally As Dictionary
 
 '------------------------------------------------------------------------------
 ' (ŠT—v)
@@ -33,7 +37,8 @@ Private m_segmentCounter    As New Dictionary ' Key : EncodingMode, Item : Long
 Friend Sub Initialize(ByVal parentObj As Symbols)
     
     Set m_parent = parentObj
-
+    Set m_segmentCounter = CreateObject("Scripting.Dictionary")
+    
     m_position = parentObj.Count
     
     Set m_currEncoder = Nothing
@@ -45,7 +50,7 @@ Friend Sub Initialize(ByVal parentObj As Symbols)
         
     m_dataBitCounter = 0
     
-    Call m_segmentCounter.Add(EncodingMode.NUMERIC, 0)
+    Call m_segmentCounter.Add(EncodingMode.Numeric, 0)
     Call m_segmentCounter.Add(EncodingMode.ALPHA_NUMERIC, 0)
     Call m_segmentCounter.Add(EncodingMode.EIGHT_BIT_BYTE, 0)
     Call m_segmentCounter.Add(EncodingMode.KANJI, 0)
@@ -95,7 +100,7 @@ End Property
 '------------------------------------------------------------------------------
 Friend Function TryAppend(ByVal c As String) As Boolean
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
@@ -129,7 +134,7 @@ End Function
 Friend Function TrySetEncodingMode( _
     ByVal encMode As EncodingMode, ByVal c As String) As Boolean
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
@@ -417,7 +422,7 @@ End Function
 
 Private Sub WriteStructuredAppendHeader(ByVal bs As BitSequence)
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert m_parent.Count > 1
 #End If
 

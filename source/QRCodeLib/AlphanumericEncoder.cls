@@ -64,7 +64,7 @@ End Property
 '------------------------------------------------------------------------------
 Private Function IQRCodeEncoder_Append(ByVal c As String) As Long
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
     Debug.Assert IQRCodeEncoder_IsInSubset(c)
 #End If
@@ -102,7 +102,7 @@ End Function
 '------------------------------------------------------------------------------
 Private Function IQRCodeEncoder_GetCodewordBitLength(ByVal c As String) As Long
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
     Debug.Assert IQRCodeEncoder_IsInSubset(c)
 #End If
@@ -119,7 +119,7 @@ End Function
 ' (概要)
 '  エンコードされたバイトデータを返します。
 '------------------------------------------------------------------------------
-Private Function IQRCodeEncoder_GetBytes() As Byte()
+Private Function IQRCodeEncoder_GetBytes() As byte()
 
     Dim bs As BitSequence
     Set bs = New BitSequence
@@ -151,7 +151,7 @@ End Function
 '------------------------------------------------------------------------------
 Private Function IQRCodeEncoder_IsInSubset(ByVal c As String) As Boolean
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
@@ -198,7 +198,7 @@ End Function
 '------------------------------------------------------------------------------
 Private Function IQRCodeEncoder_IsInExclusiveSubset(ByVal c As String) As Boolean
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
@@ -243,7 +243,7 @@ End Function
 '------------------------------------------------------------------------------
 Private Function ConvertCharCode(ByVal c As String) As Long
 
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
