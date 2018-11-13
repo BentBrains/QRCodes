@@ -1,3 +1,9 @@
+# QRCodeAX
+QRCodeAX is an ActiveX Object for generating QR Codes in Windows Enviroment.
+It is based on yas78/QRCodeLibVBA.
+
+Follows the Google translated README.md from yas78/QRCodeLibVBA 
+
 # QRCodeLibVBA
 QRCodeLibVBA is a QR code generation library written in Excel VBA.
 Generate model 2 code symbols based on JIS X 0510.
