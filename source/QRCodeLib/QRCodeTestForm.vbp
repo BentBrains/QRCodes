@@ -1,7 +1,7 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
 Reference=*\G{00025E01-0000-0000-C000-000000000046}#4.0#0#..\..\..\..\..\..\..\..\Program Files (x86)\Common Files\Microsoft Shared\DAO\dao350.dll#Microsoft DAO 3.51 Object Library
-Object={89D94A1E-DB65-4469-AFB5-D54C6F6B7639}#1.0#0; QRCodeAX.ocx
+Object={89D94A1E-DB65-4469-AFB5-D54C6F6B7639}#1.1#0; QRCodeAX.ocx
 Form=QRCodeTestForm.frm
 IconForm="Form1"
 Startup="Form1"

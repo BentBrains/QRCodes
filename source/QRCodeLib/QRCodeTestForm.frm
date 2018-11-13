@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{89D94A1E-DB65-4469-AFB5-D54C6F6B7639}#1.0#0"; "QRCodeAX.ocx"
+Object = "{89D94A1E-DB65-4469-AFB5-D54C6F6B7639}#1.1#0"; "QRCodeAX.ocx"
 Begin VB.Form Form1 
    Caption         =   "QRCodeAX TestForm"
    ClientHeight    =   7890
@@ -28,6 +28,9 @@ Begin VB.Form Form1
       Width           =   4335
       _ExtentX        =   7646
       _ExtentY        =   7646
+      DataString      =   "PRDEL"
+      BackRGB         =   "#FFAA88"
+      ShowBorder      =   -1  'True
    End
    Begin VB.CommandButton cmdRecalc 
       Caption         =   "Recalc"

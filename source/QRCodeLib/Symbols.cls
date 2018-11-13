@@ -1,6 +1,10 @@
 VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
 END
 Attribute VB_Name = "Symbols"
 Attribute VB_GlobalNameSpace = False
@@ -13,9 +17,9 @@ Private m_items  As Collection
 
 Private m_minVersion              As Long
 Private m_maxVersion              As Long
-Private m_errorCorrectionLevel    As ErrorCorrectionLevel
+Private m_ErrorCorrectionLevel    As ErrorCorrectionLevel
 Private m_structuredAppendAllowed As Boolean
-Private m_byteModeCharsetName     As String
+Private m_ByteModeCharsetName     As String
 
 Private m_structuredAppendParity As Long
 
@@ -35,7 +39,7 @@ Private m_byteModeEncoding As TextEncoding
 Friend Sub Initialize(ByVal ecLevel As ErrorCorrectionLevel, _
                       ByVal maxVer As Long, _
                       ByVal allowStructuredAppend As Boolean, _
-                      ByVal byteModeCharsetName As String)
+                      ByVal ByteModeCharsetName As String)
     
     If maxVer < Constants.MIN_VERSION Or _
        maxVer > Constants.MAX_VERSION Then
@@ -45,24 +49,24 @@ Friend Sub Initialize(ByVal ecLevel As ErrorCorrectionLevel, _
     Set m_items = New Collection
     
     Set m_encNum = QRCodeEncoderFactory.CreateEncoder( _
-            EncodingMode.NUMERIC, byteModeCharsetName)
+            EncodingMode.Numeric, ByteModeCharsetName)
     Set m_encAlpha = QRCodeEncoderFactory.CreateEncoder( _
-            EncodingMode.ALPHA_NUMERIC, byteModeCharsetName)
+            EncodingMode.ALPHA_NUMERIC, ByteModeCharsetName)
     Set m_encByte = QRCodeEncoderFactory.CreateEncoder( _
-            EncodingMode.EIGHT_BIT_BYTE, byteModeCharsetName)
+            EncodingMode.EIGHT_BIT_BYTE, ByteModeCharsetName)
     Set m_encKanji = QRCodeEncoderFactory.CreateEncoder( _
-            EncodingMode.KANJI, byteModeCharsetName)
+            EncodingMode.KANJI, ByteModeCharsetName)
 
     m_minVersion = 1
     m_maxVersion = maxVer
-    m_errorCorrectionLevel = ecLevel
+    m_ErrorCorrectionLevel = ecLevel
     m_structuredAppendAllowed = allowStructuredAppend
-    m_byteModeCharsetName = byteModeCharsetName
+    m_ByteModeCharsetName = ByteModeCharsetName
 
     m_structuredAppendParity = 0
     
     Set m_byteModeEncoding = New TextEncoding
-    Call m_byteModeEncoding.Init(byteModeCharsetName)
+    Call m_byteModeEncoding.Init(ByteModeCharsetName)
 
     Set m_currSymbol = New Symbol
     Call m_currSymbol.Initialize(Me)
@@ -143,7 +147,7 @@ End Property
 '------------------------------------------------------------------------------
 Friend Property Get ErrorCorrectionLevel() As ErrorCorrectionLevel
 
-    ErrorCorrectionLevel = m_errorCorrectionLevel
+    ErrorCorrectionLevel = m_ErrorCorrectionLevel
 
 End Property
 
@@ -153,7 +157,7 @@ End Property
 '------------------------------------------------------------------------------
 Friend Property Get ByteModeCharset() As String
     
-    ByteModeCharset = m_byteModeCharsetName
+    ByteModeCharset = m_ByteModeCharsetName
 
 End Property
 
@@ -179,7 +183,7 @@ End Property
 '------------------------------------------------------------------------------
 Private Function Add() As Symbol
     
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert m_structuredAppendAllowed
     Debug.Assert m_items.Count < 16
 #End If
@@ -211,7 +215,7 @@ Public Sub AppendString(ByVal s As String)
             Case EncodingMode.UNKNOWN
                 newMode = SelectInitialMode(s, i)
                 
-            Case EncodingMode.NUMERIC
+            Case EncodingMode.Numeric
                 newMode = SelectModeWhileInNumericMode(s, i)
                 
             Case EncodingMode.ALPHA_NUMERIC
@@ -262,7 +266,7 @@ End Sub
 '------------------------------------------------------------------------------
 Friend Sub UpdateParity(ByVal c As String)
     
-#If [DEBUG] Then
+#If [Debug] Then
     Debug.Assert Len(c) = 1
 #End If
 
@@ -401,7 +405,7 @@ Private Function SelectInitialMode( _
             SelectInitialMode = EncodingMode.ALPHA_NUMERIC
             Exit Function
         Else
-            SelectInitialMode = EncodingMode.NUMERIC
+            SelectInitialMode = EncodingMode.Numeric
             Exit Function
         End If
         
@@ -437,7 +441,7 @@ Private Function SelectModeWhileInNumericMode( _
         
     End If
     
-    SelectModeWhileInNumericMode = EncodingMode.NUMERIC
+    SelectModeWhileInNumericMode = EncodingMode.Numeric
 
 End Function
 
@@ -499,7 +503,7 @@ Private Function SelectModeWhileInAlphanumericMode( _
         End Select
 
         If flg Then
-            SelectModeWhileInAlphanumericMode = EncodingMode.NUMERIC
+            SelectModeWhileInAlphanumericMode = EncodingMode.Numeric
             Exit Function
         End If
     End If
@@ -563,7 +567,7 @@ Private Function SelectModeWhileInByteMode( _
         End Select
         
         If flg Then
-            SelectModeWhileInByteMode = EncodingMode.NUMERIC
+            SelectModeWhileInByteMode = EncodingMode.Numeric
             Exit Function
         End If
     End If

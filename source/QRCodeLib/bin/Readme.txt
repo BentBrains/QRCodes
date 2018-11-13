@@ -1,0 +1,1 @@
+This folder contains a reference file for binary compatibility

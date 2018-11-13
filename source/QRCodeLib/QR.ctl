@@ -37,7 +37,7 @@ Public Enum eBackStyle
     Solid
 End Enum
 
-Public Enum eECR                'Error Correction Level
+Public Enum eECR        'Error Correction Level
     L
     M
     Q
@@ -45,16 +45,14 @@ Public Enum eECR                'Error Correction Level
 End Enum
 
 'Default Property Values:
-Const m_def_ShowBorder = 0
-Const m_def_ErrorCorrectionLevel = 1
-Const m_def_ModuleSize = 1
-Const m_def_BackRGB = "#FFFFFF"
-Const m_def_ForeRGB = "#000000"
-Const m_def_ByteModeCharsetName = "UTF-8"
-Const m_def_DataString = ""
+Const m_def_ErrorCorrectionLevel As Long = 1
+Const m_def_ModuleSize As Long = 1
+Const m_def_BackRGB As String = "#FFFFFF"
+Const m_def_ForeRGB As String = "#000000"
+Const m_def_ByteModeCharsetName As String = "UTF-8"
+Const m_def_DataString As String = ""
 
 'Property Variables:
-Dim m_ShowBorder As Boolean
 Dim m_ErrorCorrectionLevel As eECR
 Dim m_ModuleSize As Long
 Dim m_BackRGB As String
@@ -71,6 +69,84 @@ Attribute Click.VB_Description = "Single Click Event"
 Attribute Click.VB_UserMemId = -600
 Event AfterRecalc()
 Attribute AfterRecalc.VB_Description = "This event is fired after QRCode was Recalculated"
+
+'Initialize Properties for User Control
+Private Sub UserControl_InitProperties()
+    m_DataString = m_def_DataString
+    m_BackRGB = m_def_BackRGB
+    m_ForeRGB = m_def_ForeRGB
+    m_ByteModeCharsetName = m_def_ByteModeCharsetName
+    m_ModuleSize = m_def_ModuleSize
+    m_ErrorCorrectionLevel = m_def_ErrorCorrectionLevel
+End Sub
+
+'Load property values from storage
+Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
+    On Error GoTo Catch_
+    Dim Prop As String      'For Error message
+    Prop = "DataString"
+    m_DataString = PropBag.ReadProperty("DataString", m_def_DataString)
+    Prop = "Appearance"
+    QRImg.Appearance = PropBag.ReadProperty("Appearance", 0)
+    Prop = "BackRGB"
+    m_BackRGB = PropBag.ReadProperty("BackRGB", m_def_BackRGB)
+    Prop = "ForeRGB"
+    m_ForeRGB = PropBag.ReadProperty("ForeRGB", m_def_ForeRGB)
+    Prop = "ByteModeCharsetName"
+    m_ByteModeCharsetName = PropBag.ReadProperty("ByteModeCharsetName", m_def_ByteModeCharsetName)
+    Prop = "BackColor"
+    UserControl.BackColor = PropBag.ReadProperty("BackColor", &H8000000F)
+    Prop = "BackStyle"
+    UserControl.BackStyle = PropBag.ReadProperty("BackStyle", 1)
+    Prop = "ModuleSize"
+    m_ModuleSize = PropBag.ReadProperty("ModuleSize", m_def_ModuleSize)
+    Prop = "ShowBorder"
+    ShowBorder = PropBag.ReadProperty("ShowBorder", False)
+    Prop = "ECR"
+    m_ErrorCorrectionLevel = PropBag.ReadProperty("ErrorCorrectionLevel", m_def_ErrorCorrectionLevel)
+Finally_:
+    'Now call Recalc to create Picture, rather than saving Picture directly to PropBag. It did not work well, probably some object issue
+    Recalc
+    On Error GoTo 0
+    Exit Sub
+Catch_:
+    MsgBox "<" & Prop & ">" & vbCrLf & Err.Number & ": " & Err.Description, vbCritical, "UserControl.ReadProperties"
+    Resume Finally_
+End Sub
+
+'Write property values to storage
+Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
+    On Error GoTo Catch_
+    Dim Prop As String
+    Prop = "DataString"
+    Call PropBag.WriteProperty("DataString", m_DataString, m_def_DataString)
+    Prop = "Appearance"
+    Call PropBag.WriteProperty("Appearance", QRImg.Appearance, 0)
+    Prop = "BackRGB"
+    Call PropBag.WriteProperty("BackRGB", m_BackRGB, m_def_BackRGB)
+    Prop = "ForeRGB"
+    Call PropBag.WriteProperty("ForeRGB", m_ForeRGB, m_def_ForeRGB)
+    Prop = "ByteModeCharsetName"
+    Call PropBag.WriteProperty("ByteModeCharsetName", m_ByteModeCharsetName, m_def_ByteModeCharsetName)
+    Prop = "BackColor"
+    Call PropBag.WriteProperty("BackColor", UserControl.BackColor, &H8000000F)
+    Prop = "BackStyle"
+    Call PropBag.WriteProperty("BackStyle", UserControl.BackStyle, 1)
+    Prop = "ModuleSize"
+    Call PropBag.WriteProperty("ModuleSize", m_ModuleSize, m_def_ModuleSize)
+    Prop = "ShowBorder"
+    Call PropBag.WriteProperty("ShowBorder", ShowBorder, False)
+    Prop = "ErrorCorrectionLevel"
+    Call PropBag.WriteProperty("ErrorCorrectionLevel", m_ErrorCorrectionLevel, m_def_ErrorCorrectionLevel)
+Finally_:
+    On Error GoTo 0
+    Exit Sub
+Catch_:
+    MsgBox "<" & Prop & ">" & vbCrLf & Err.Number & ": " & Err.Description, vbCritical, "UserControl.WriteProperties"
+    Resume Finally_
+End Sub
+
+'*************************************************************************************************************************
 
 'WARNING! DO NOT REMOVE OR MODIFY THE FOLLOWING COMMENTED LINES!
 'MemberInfo=13,0,0,
@@ -97,25 +173,19 @@ End Property
 Public Function Recalc() As Variant
 Attribute Recalc.VB_Description = "Recalculates the QRCode"
     'Generate QR Code and display it
+    On Error GoTo Catch_
     If m_DataString = "" Or Len(m_DataString) > 4096 Then
         QRImg.Picture = Nothing
         GoTo Finally_
     End If
-    
-    On Error GoTo Catch_
     Dim sbls As Symbols
     Set sbls = CreateSymbols(m_ErrorCorrectionLevel, 40, False, ByteModeCharsetName)
     sbls.AppendString m_DataString
-
-    Dim Pict As stdole.IPicture
-    Set Pict = sbls(0).Get24bppImage(m_ModuleSize, m_ForeRGB, m_BackRGB)
-    QRImg.Picture = Pict
-
+    Set QRImg.Picture = sbls(0).Get24bppImage(m_ModuleSize, m_ForeRGB, m_BackRGB)
 Finally_:
     On Error GoTo 0
     RaiseEvent AfterRecalc
     Exit Function
-    
 Catch_:
     MsgBox "Error " & Err.Number & vbCrLf & Err.Description, vbCritical, "QRCodeAX"
     Resume Finally_
@@ -137,65 +207,10 @@ Private Sub UserControl_DblClick()
     RaiseEvent DblClick
 End Sub
 
-'Initialize Properties for User Control
-Private Sub UserControl_InitProperties()
-    m_DataString = m_def_DataString
-    m_BackRGB = m_def_BackRGB
-    m_ForeRGB = m_def_ForeRGB
-    m_ByteModeCharsetName = m_def_ByteModeCharsetName
-    m_ModuleSize = m_def_ModuleSize
-    m_ShowBorder = m_def_ShowBorder
-    m_ErrorCorrectionLevel = m_def_ErrorCorrectionLevel
-End Sub
-
-'Load property values from storage
-Private Sub UserControl_ReadProperties(PropBag As PropertyBag)
-    On Error GoTo Catch_
-    m_DataString = PropBag.ReadProperty("DataString", m_def_DataString)
-    Set Picture = PropBag.ReadProperty("Picture", Nothing)
-    QRImg.Appearance = PropBag.ReadProperty("Appearance", 0)
-    QRImg.BorderStyle = PropBag.ReadProperty("ShowBorder", 0)
-    m_BackRGB = PropBag.ReadProperty("BackRGB", m_def_BackRGB)
-    m_ForeRGB = PropBag.ReadProperty("ForeRGB", m_def_ForeRGB)
-    m_ByteModeCharsetName = PropBag.ReadProperty("ByteModeCharsetName", m_def_ByteModeCharsetName)
-    UserControl.BackColor = PropBag.ReadProperty("BackColor", &H8000000F)
-    UserControl.BackStyle = PropBag.ReadProperty("BackStyle", 1)
-    m_ModuleSize = PropBag.ReadProperty("ModuleSize", m_def_ModuleSize)
-    m_ShowBorder = PropBag.ReadProperty("ShowBorder", m_def_ShowBorder)
-    m_ErrorCorrectionLevel = PropBag.ReadProperty("ErrorCorrectionLevel", m_def_ErrorCorrectionLevel)
-Finally_:
-    On Error GoTo 0
-    Exit Sub
-Catch_:
-    MsgBox Err.Number & ": " & Err.Description
-    Resume Finally_
-End Sub
-
-'Write property values to storage
-Private Sub UserControl_WriteProperties(PropBag As PropertyBag)
-    On Error GoTo Catch_
-    Call PropBag.WriteProperty("DataString", m_DataString, m_def_DataString)
-    Call PropBag.WriteProperty("Picture", Picture, Nothing)
-    Call PropBag.WriteProperty("Appearance", QRImg.Appearance, 0)
-    Call PropBag.WriteProperty("ShowBorder", QRImg.BorderStyle, 0)
-    Call PropBag.WriteProperty("BackRGB", m_BackRGB, m_def_BackRGB)
-    Call PropBag.WriteProperty("ForeRGB", m_ForeRGB, m_def_ForeRGB)
-    Call PropBag.WriteProperty("ByteModeCharsetName", m_ByteModeCharsetName, m_def_ByteModeCharsetName)
-    Call PropBag.WriteProperty("BackColor", UserControl.BackColor, &H8000000F)
-    Call PropBag.WriteProperty("BackStyle", UserControl.BackStyle, 1)
-    Call PropBag.WriteProperty("ModuleSize", m_ModuleSize, m_def_ModuleSize)
-    Call PropBag.WriteProperty("ShowBorder", m_ShowBorder, m_def_ShowBorder)
-    Call PropBag.WriteProperty("ErrorCorrectionLevel", m_ErrorCorrectionLevel, m_def_ErrorCorrectionLevel)
-Finally_:
-    On Error GoTo 0
-    Exit Sub
-Catch_:
-    MsgBox Err.Number & ": " & Err.Description
-    Resume Finally_
-End Sub
-
 Private Sub UserControl_Resize()
-    'Make sure the image has aspect ratio 1:1 (square)
+    'Make sure that both Control and Image has aspect ratio 1:1 (square)
+    'The problem is that user cannot change the size of control by changing the width.
+    'This could have been probably done better but fuck it.
     UserControl.Width = UserControl.Height
     QRImg.Width = Width
     QRImg.Height = Width
@@ -214,7 +229,7 @@ Attribute Picture.VB_ProcData.VB_Invoke_Property = ";Data"
     Set Picture = QRImg.Picture
 End Property
 
-Private Property Set Picture(ByVal New_Picture As Picture)  'I don't want this available
+Public Property Let Picture(ByVal New_Picture As Picture)
     Set QRImg.Picture = New_Picture
     PropertyChanged "Picture"
 End Property
@@ -319,15 +334,15 @@ Public Property Let ModuleSize(ByVal New_ModuleSize As Long)
     End If
     PropertyChanged "ModuleSize"
 End Property
+
 Public Property Get ShowBorder() As Boolean
 Attribute ShowBorder.VB_Description = "Show border around the QRCode"
 Attribute ShowBorder.VB_ProcData.VB_Invoke_Property = ";Appearance"
-    ShowBorder = m_ShowBorder
+    ShowBorder = QRImg.BorderStyle = 1
 End Property
 
 Public Property Let ShowBorder(ByVal New_ShowBorder As Boolean)
-    m_ShowBorder = New_ShowBorder
-    If m_ShowBorder Then
+    If New_ShowBorder Then
         QRImg.BorderStyle = 1
     Else
         QRImg.BorderStyle = 0

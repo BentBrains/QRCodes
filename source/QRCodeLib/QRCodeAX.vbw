@@ -44,4 +44,4 @@ SymbolSequenceIndicator = 0, 0, 0, 0, C
 TextEncoding = 0, 0, 0, 0, C
 TimingPattern = 0, 0, 0, 0, C
 VersionInfo = 75, 75, 1258, 810, C
-QR = 90, 69, 1354, 987, , 127, 179, 1368, 755, C
+QR = 82, 47, 1346, 965, C, 127, 179, 1368, 755, C
