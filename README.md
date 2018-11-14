@@ -2,7 +2,18 @@
 QRCodeAX is an ActiveX Object for generating QR Codes in Windows Enviroment.
 It is based on yas78/QRCodeLibVBA.
 
-A Google translated README.md from yas78/QRCodeLibVBA follows:
+## Installation:
+Main file is QRCodeAX.ocx. Place it anywhere to your system drive and then run `regsvr32.exe QRCodeAX.ocx` from the command prompt as an administrator.
+Based on your system, the file should normally live in `Windows\System32 directory`, (on 64bit system in `Windows\sysWOW64`), but it does not really matter.
+
+That's it. Now the examples should work.
+
+## Placing QRCodeAX into Excel or Access files
+If you want to place the QRCode into your Excel sheet / app, click Developer tab > Insert > More Controls > choose QRCodeAX from the list and the draw the object on the sheet. See the ExcelExample.xlsm
+
+
+
+*A Google translated README.md from yas78/QRCodeLibVBA follows:*
 
 ## QRCodeLibVBA
 QRCodeLibVBA is a QR code generation library written in Excel VBA.
