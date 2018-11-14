@@ -11,7 +11,7 @@ That's it. Now the examples should work.
 ## Placing QRCodeAX into Excel or Access files
 If you want to place the QRCode into your Excel sheet / app, click *Developer tab > Insert > More Controls*, then choose QRCodeAX from the list and the draw the object on the sheet. See the ExcelExample.xlsm
 
-In MS Access, enter the Design view, on the Controls tab click *More > ActiveX Controls* and choose QRCodeAX from list. You can bind the Control Source directly to the data field so you don't have to use VBA or Macros at all. Unfortunately, the continuous forms does not support this kind of ActiveX Control, which is really shame.
+In MS Access, enter the Design view, on the Controls tab click *More > ActiveX Controls* and choose QRCodeAX from the list. You can bind the Control Source directly to the data field so you don't have to use VBA or Macros at all. Unfortunately, the continuous forms does not support this kind of ActiveX Control, which is really shame.
 
 
 *A Google translated README.md from yas78/QRCodeLibVBA follows:*
