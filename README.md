@@ -3,7 +3,7 @@ QRCodeAX is an ActiveX Object for generating QR Codes in Windows Enviroment.
 It is based on yas78/QRCodeLibVBA.
 
 ## Installation:
-Main file is QRCodeAX.ocx. Place it anywhere to your system drive and then run `regsvr32.exe QRCodeAX.ocx` from the command prompt as an administrator.
+Main file is **QRCodeAX.ocx**. Place it anywhere to your system drive and then run `regsvr32.exe QRCodeAX.ocx` from the command prompt as an administrator.
 Based on your system, the file should normally live in `Windows\System32 directory`, (on 64bit system in `Windows\sysWOW64`), but it does not really matter.
 
 That's it. Now the examples should work.
