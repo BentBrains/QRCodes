@@ -1,4 +1,5 @@
 # QRCodeAX
+## Simple QR Code generator for MS Office (Access, Excel)
 QRCodeAX is an ActiveX Object for generating QR Codes in Windows Enviroment.
 It is based on yas78/QRCodeLibVBA.
 
